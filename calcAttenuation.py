@@ -119,7 +119,7 @@ for i,x in enumerate(options['Ts']):
 			if x_next['type'] == 'stage':
 				if ('CP' in x_next) and ('CP' in x):
 					k = i + j
-					# print 'k %d' % k
+					# print('k %d' % k)
 					const += ({
 								'type':'ineq',
 								'fun': lambda g,*args: numpy.array(rmp(args[0],g[args[3]]) - mip(args[1],g[args[2]])),
@@ -132,8 +132,8 @@ for i,x in enumerate(options['Ts']):
 					'fun': lambda g,*args: numpy.array(g[args[2]] - dBtoG( args[0]*args[1] )),
 					'args':(x['atten'],x['length'],i)
 				},)
-# print 'constraints:'
-# print len(const)
+# print('constraints:')
+# print(len(const))
 
 const_ext = ()
 for i,x in enumerate(options['Ts']):
@@ -203,12 +203,12 @@ def et(gs):
 
 def print_stats(res):
 	atten = GtodB(res.x)
-	print 'Attenuations (dB): %s' % atten
-	print 'Te (mK): %g' % (electronTemperature(Ts,res.x)*1000.)
-	print 'Total attenuation in attenuators only: %s' % sum(atten) 
-	print 'Total attenuation in attenuators and coaxes: %s' % (sum(atten) )
-	print 'Max Power on DUT uncooled: %s' % (24 + sum(atten) )
-	print 'Max Power on DUT cooled: %s' % (10*log10(rmp(CPs[0],res.x[0]) /1e-3) )
+	print('Attenuations (dB): %s' % atten)
+	print('Te (mK): %g' % (electronTemperature(Ts,res.x)*1000.))
+	print('Total attenuation in attenuators only: %s' % sum(atten) )
+	print('Total attenuation in attenuators and coaxes: %s' % (sum(atten) ))
+	print('Max Power on DUT uncooled: %s' % (24 + sum(atten) ))
+	print('Max Power on DUT cooled: %s' % (10*log10(rmp(CPs[0],res.x[0]) /1e-3) ))
 
 
 res = minimize(et, g0 ,constraints=const,method='SLSQP',bounds=bnds,options={'ftol':1e-12,'maxiter':10000,'disp':True})
